@@ -5,6 +5,9 @@ name: "Auto update v2"
 
 on:
   push:
+    # dependabot 分支拿不到仓库 secrets，跑整套自动更新只会整片失败
+    branches-ignore:
+      - 'dependabot/**'
     paths:
       - '.github/workflows/Auto update v2.yml'
   schedule:
@@ -28,10 +31,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: 'main'
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN || github.token }}
 
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2.1.0
@@ -401,10 +404,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: 'main'
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN || github.token }}
 
       - name: Initialization environment
         run: |
@@ -544,10 +547,10 @@ jobs:
     name: Auto-update-tuic-client
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: 'main'
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN || github.token }}
 
       - name: Check TUIC upstream
         id: check_tuic
@@ -652,10 +655,10 @@ jobs:
     name: Auto-update-shadowsocks-libev
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: 'main'
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN || github.token }}
 
       - name: Initialization environment
         run: |
